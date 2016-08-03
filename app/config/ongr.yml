@@ -1,0 +1,23 @@
+# Elasticsearch configuration
+ongr_elasticsearch:
+    connections:
+        default:
+            index_name: error_retention
+    managers:
+        default:
+            connection: default
+            mappings:
+                - AppBundle
+
+# Elasticsearch endpoint api
+ongr_api:
+#    default_encoding: json
+    versions:
+        v1:
+            endpoints:
+                error:
+                    repository: es.manager.default.error
+                    methods: ["GET", "POST"]
+                    allow_extra_fields: true
+                    allow_batch: true
+                    allow_get_all: true
