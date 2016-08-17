@@ -14,7 +14,7 @@
                 <th data-field="more">More</th>
                 </thead>
                 <tbody>
-                {% for error in filter_manager.getResult() %}{% dump(error) %}
+                {% for error in filter_manager.getResult() %}
                     <tr>
                         <td> {{ error.app }} </td>
                         <td> {{ error.method }} </td>
