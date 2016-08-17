@@ -2,7 +2,8 @@
 ongr_elasticsearch:
     connections:
         default:
-            index_name: error_retention
+            hosts: '%elasticsearch.connections%'
+            index_name: '%elasticsearch.index%'
     managers:
         default:
             connection: default
@@ -31,7 +32,6 @@ ongr_filter_manager:
                 - user
                 - app
                 - env
-#                - occurred
                 - message
                 - url
                 - error_class
