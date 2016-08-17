@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "ae9cc79c2eb50e264b2a8498b4ad63b7",
-    "content-hash": "1e6f42ad8f971ee57940401b86f0e8d8",
+    "hash": "503e56470d919a2354b7d1870709a1ce",
+    "content-hash": "a403a79861faf833af0e934c19506e7b",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -1135,6 +1135,60 @@
             "description": "Elasticsearch DSL library",
             "homepage": "http://ongr.io",
             "time": "2016-07-11 08:15:59"
+        },
+        {
+            "name": "ongr/filter-manager-bundle",
+            "version": "v1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ongr-io/FilterManagerBundle.git",
+                "reference": "3b2e1e46ccd58aacdd8fc0f85fe2414cfbdeb86c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ongr-io/FilterManagerBundle/zipball/3b2e1e46ccd58aacdd8fc0f85fe2414cfbdeb86c",
+                "reference": "3b2e1e46ccd58aacdd8fc0f85fe2414cfbdeb86c",
+                "shasum": ""
+            },
+            "require": {
+                "ongr/elasticsearch-bundle": "~1.0",
+                "php": ">=5.5",
+                "symfony/symfony": "~2.7|~3.0"
+            },
+            "require-dev": {
+                "monolog/monolog": "~1.0",
+                "phpunit/phpunit": "~4.4",
+                "satooshi/php-coveralls": "~1.0",
+                "squizlabs/php_codesniffer": "~2.4"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "ONGR\\FilterManagerBundle\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Test/",
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "ONGR team",
+                    "homepage": "http://www.ongr.io"
+                }
+            ],
+            "description": "Filter manager bundle for product lists",
+            "homepage": "http://ongr.io",
+            "time": "2016-05-28 06:54:11"
         },
         {
             "name": "paragonie/random_compat",

@@ -54,12 +54,6 @@ class ErkamService
         $error->parametersPost = new Collection();
         $error->serverEnv = new Collection();
 
-
-//        $error->parametersCookie = var_export($request->cookies->all(), true);
-//        $error->parametersPost = var_export($request->request->all(), true);
-//        $error->parametersSession = var_export($request->getSession()->all(), true);
-//        $error->browser = var_export($request->server->all(), true);
-
         // Fetch client ip address
         foreach ($request->getClientIps() as $ip) {
             $ipObj = new ErrorIp();

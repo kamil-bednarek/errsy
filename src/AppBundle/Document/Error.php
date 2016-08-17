@@ -57,35 +57,35 @@ class Error
     public $backtrace;
 
     /**
-     * @var \ErrorParam
+     * @var ErrorParam[]
      *
      * @ES\Embedded(class="AppBundle:ErrorParam", multiple=true)
      */
     public $parametersPost;
 
     /**
-     * @var \ErrorParam
+     * @var ErrorParam[]
      *
      * @ES\Embedded(class="AppBundle:ErrorParam", multiple=true)
      */
     public $parametersSession;
 
     /**
-     * @var \ErrorParam
+     * @var ErrorParam[]
      *
      * @ES\Embedded(class="AppBundle:ErrorParam", multiple=true)
      */
     public $parametersCookie;
 
     /**
-     * @var \ErrorParam
+     * @var ErrorParam[]
      *
      * @ES\Embedded(class="AppBundle:ErrorParam", multiple=true)
      */
     public $serverEnv;
 
     /**
-     * @var ErrorIp
+     * @var ErrorIp[]
      *
      * @ES\Embedded(class="AppBundle:ErrorIp", multiple=true)
      */

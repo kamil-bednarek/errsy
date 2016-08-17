@@ -18,3 +18,10 @@ services:
         arguments: ['@request_stack']
         calls:
             - ['setRepo', ['@es.manager.default.error']]
+
+#    ongr_filter_manager:
+#        cache:
+#            engine: 'es.cache_engine' # cache engine, set null to disable caching
+#            life_time: 1080 # cache life time in seconds, 3 hours default
+#            exclude:
+#                - search

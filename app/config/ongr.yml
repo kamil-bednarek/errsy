@@ -21,3 +21,55 @@ ongr_api:
                     allow_extra_fields: true
                     allow_batch: true
                     allow_get_all: true
+
+# Error filters
+ongr_filter_manager:
+    managers:
+        search_list: # <- Filter manager name
+            filters:
+                - method
+                - user
+                - app
+                - env
+#                - occurred
+                - message
+                - url
+                - error_class
+                - search_pager
+                - search_sort
+            repository: 'es.manager.default.error'
+    filters:
+        multi_choice:
+            method:
+                request_field: 'method'
+                field: method
+            app:
+                request_field: 'app'
+                field: app
+            env:
+                request_field: 'env'
+                field: env
+        match:
+            error_class:
+                request_field: 'errorClass'
+                field: errorClass
+            url:
+                request_field: 'url'
+                field: url
+            message:
+                request_field: 'message'
+                field: message
+            user:
+                request_field: 'user'
+                field: user
+        pager:
+            search_pager:
+                request_field: 'page'
+                count_per_page: 10
+        sort:
+            search_sort:
+                request_field: 'sort'
+                choices:
+                  - { label: No sorting, key: score, field: _score }
+                  - { label: Heaviest to lightest, key: occurred_asc, field: occurred, order: asc }
+                  - { label: Lightest to heaviest, key: occurred_desc, field: occurred, order: desc  }

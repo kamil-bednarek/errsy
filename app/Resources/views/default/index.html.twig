@@ -1,5 +1,68 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1> JESTEM TESTEM </h1>
+    {% set pagerFilter = filter_manager.getFilters().search_pager %}
+
+    <div class="row">
+        <div class="col s10">
+            <table class="bordered striped highlight responsive-table">
+                <thead>
+                <th data-field="id">App</th>
+                <th data-field="method">Method</th>
+                <th data-field="time">Time</th>
+                <th data-field="message">Message</th>
+                <th data-field="more">More</th>
+                </thead>
+                <tbody>
+                {% for error in filter_manager.getResult() %}{% dump(error) %}
+                    <tr>
+                        <td> {{ error.app }} </td>
+                        <td> {{ error.method }} </td>
+                        <td> {{ error.occurred | date('Y-m-d H:i:s') }} </td>
+                        <td> <strong>{{ error.message }}</strong> </td>
+                        <td class="red-text text-darken-2"> <a href="{{ path('details', {'id': error.id}) }}"> <i class="material-icons red-text text-darken-2">input</i></a> </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="col s2">
+            <h5> App </h5>
+            <div class="collection">
+                {% for choice in filter_manager.getFilters().app.getChoices() %}
+                    <a href="{{ path(app.request.attributes.get('_route'), choice.getUrlParameters()) }}" class="collection-item">
+                        {{ choice.getLabel() }}
+                        <span class="new badge">({{ choice.getCount() }})</span>
+                    </a>
+                {% endfor %}
+            </div>
+            <div class="divider"></div>
+            <h5> Method </h5>
+            <div class="collection">
+                {% for choice in filter_manager.getFilters().method.getChoices() %}
+                    <a href="{{ path(app.request.attributes.get('_route'), choice.getUrlParameters()) }}" class="collection-item">
+                        {{ choice.getLabel() }}
+                        <span class="new badge">({{ choice.getCount() }})</span>
+                    </a>
+                {% endfor %}
+            </div>
+            <div class="divider"></div>
+            <h5> Filters </h5>
+            <form action="{{ path(app.request.attributes.get('_route')) }}" method="get">
+                <input name="message" placeholder="Message..." value="{{ filter_manager.getFilters().message.getState().getValue() }}">
+                <input name="error_class" placeholder="Error class..." value="{{ filter_manager.getFilters().error_class.getState().getValue() }}">
+                <input name="url" placeholder="Url addr..." value="{{ filter_manager.getFilters().url.getState().getValue() }}">
+                <input name="user" placeholder="User..." value="{{ filter_manager.getFilters().user.getState().getValue() }}">
+                <button type="submit" class="btn-floating btn-small waves-effect waves-light green">
+                    <i class="material-icons">search</i>
+                </button>
+                <a href="{{ path('homepage') }}" class="btn-floating btn-small waves-effect waves-light red">
+                    <i class="material-icons">replay</i>
+                </a>
+            </form>
+        </div>
+    </div>
+
+    {{ ongr_paginate(pagerFilter.pager, app.request.attributes.get('_route'), pagerFilter.getUrlParameters()) }}
+
 {% endblock %}
