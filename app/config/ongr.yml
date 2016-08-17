@@ -70,6 +70,6 @@ ongr_filter_manager:
             search_sort:
                 request_field: 'sort'
                 choices:
-                  - { label: No sorting, key: score, field: _score }
-                  - { label: Heaviest to lightest, key: occurred_asc, field: occurred, order: asc }
-                  - { label: Lightest to heaviest, key: occurred_desc, field: occurred, order: desc  }
+                  - { label: Search score, key: score, field: _score }
+                  - { label: Older, key: occurred_asc, field: occurred, order: asc }
+                  - { label: Newer, key: occurred_desc, field: occurred, order: desc, default: true }

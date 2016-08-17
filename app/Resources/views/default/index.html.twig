@@ -47,6 +47,7 @@
                 {% endfor %}
             </div>
             <div class="divider"></div>
+
             <h5> Filters </h5>
             <form action="{{ path(app.request.attributes.get('_route')) }}" method="get">
                 <input name="message" placeholder="Message..." value="{{ filter_manager.getFilters().message.getState().getValue() }}">
@@ -64,5 +65,12 @@
     </div>
 
     {{ ongr_paginate(pagerFilter.pager, app.request.attributes.get('_route'), pagerFilter.getUrlParameters()) }}
+
+    {% for choice in filter_manager.getFilters().search_sort.getChoices() %}
+        <a href="{{ path(app.request.attributes.get('_route'), choice.getUrlParameters()) }}" class="collection-item btn">
+            {{ choice.getLabel() }}
+            <span class="new badge">({{ choice.getCount() }})</span>
+        </a>
+    {% endfor %}
 
 {% endblock %}
