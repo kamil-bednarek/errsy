@@ -52,6 +52,5 @@ class ExceptionListener
         }
 
         $this->erkam->handleException($exception);
-        error_log($exception->getMessage().' in: '.$exception->getFile().':'.$exception->getLine(), 3, '/tmp/exception.log');
     }
 }
