@@ -71,5 +71,5 @@ ongr_filter_manager:
                 request_field: 'sort'
                 choices:
                   - { label: Search score, key: score, field: _score }
-                  - { label: Older, key: occurred_asc, field: occurred, order: asc, default: true }
-                  - { label: Newer, key: occurred_desc, field: occurred, order: desc }
+                  - { label: Older, key: occurred_asc, field: occurred, order: asc }
+                  - { label: Newer, key: occurred_desc, field: occurred, order: desc, default: true }
