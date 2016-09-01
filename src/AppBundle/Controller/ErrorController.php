@@ -23,6 +23,126 @@ class ErrorController extends Controller
     }
 
     /**
+     * @Route("/stats/fixes", name="error_stats_fixes")
+     */
+    public function statsFixesAction()
+    {
+        $collection = $this->get('mongodb_provider')->getCollection('error_fixes');
+
+        // 24 hours stats
+        $createdWithin24hours = $collection->aggregate([
+            [
+                '$group' => [
+                    '_id' => [
+                        'month' => [
+                            '$month' => '$date'
+                        ],
+                        'day' => [
+                            '$dayOfMonth' => '$date'
+                        ],
+                        'hour' => [
+                            '$hour' => '$date'
+                        ]
+                    ],
+                    'count' => [
+                        '$sum' => 1
+                    ]
+                ]
+            ]
+        ], [
+            '$sort' => [
+                'date' => 1
+            ],
+            '$limit' => 24
+        ]);
+
+        // 7 days stats
+        $createdWithin7days = $collection->aggregate([
+            [
+                '$group' => [
+                    '_id' => [
+                        'month' => [
+                            '$month' => '$date'
+                        ],
+                        'day' => [
+                            '$dayOfMonth' => '$date'
+                        ],
+                    ],
+                    'count' => [
+                        '$sum' => 1
+                    ]
+                ]
+            ]
+        ], [
+            '$sort' => [
+                'date' => 1
+            ],
+            '$limit' => 7
+        ]);
+
+        // Last 60 minutes
+        $createdWithin60minutes = $collection->aggregate([
+            [
+                '$group' => [
+                    '_id' => [
+                        'month' => [
+                            '$month' => '$date'
+                        ],
+                        'day' => [
+                            '$dayOfMonth' => '$date'
+                        ],
+                        'hour' => [
+                            '$hour' => '$date'
+                        ],
+                        'minute' => [
+                            '$minute' => '$date'
+                        ]
+                    ],
+                    'count' => [
+                        '$sum' => 1
+                    ]
+                ]
+            ]
+        ], [
+            '$sort' => [
+                'date' => 1
+            ],
+            '$limit' => 60
+        ]);
+
+        // Last 60 minutes
+        $createdWithinLastMonth = $collection->aggregate([
+            [
+                '$group' => [
+                    '_id' => [
+                        'month' => [
+                            '$month' => '$date'
+                        ],
+                        'day' => [
+                            '$dayOfMonth' => '$date'
+                        ]
+                    ],
+                    'count' => [
+                        '$sum' => 1
+                    ]
+                ]
+            ]
+        ], [
+            '$sort' => [
+                'date' => 1
+            ],
+            '$limit' => 31
+        ]);
+
+        return $this->render(':error:statsFixes.html.twig', [
+            'createdWithin24Hours' => $createdWithin24hours->toArray(),
+            'createdWithin7Days' => $createdWithin7days->toArray(),
+            'createdWithin60minutes' => $createdWithin60minutes->toArray(),
+            'createdWithinLastMonth' => $createdWithinLastMonth->toArray()
+        ]);
+    }
+
+    /**
      * @Route("/stats", name="error_stats")
      */
     public function statsAction()
