@@ -14,10 +14,7 @@ class AppKernel extends Kernel
             new Symfony\Bundle\MonologBundle\MonologBundle(),
             new Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
-            new ONGR\ElasticsearchBundle\ONGRElasticsearchBundle(),
             new JMS\SerializerBundle\JMSSerializerBundle(),
-            new ONGR\ApiBundle\ONGRApiBundle(),
-            new ONGR\FilterManagerBundle\ONGRFilterManagerBundle(),
 
             new AppBundle\AppBundle(),
         ];

@@ -10,115 +10,161 @@ namespace AppBundle\Document;
 use MongoDB\BSON\Persistable;
 use ONGR\ElasticsearchBundle\Annotation as ES;
 
-/**
- * @ES\Document()
- */
 class Error implements Persistable
 {
     /**
      * @var string
-     *
-     * @ES\Id()
      */
     public $id;
 
     /**
      * @var string
-     *
-     * @ES\Property(name="error_class", type="string")
      */
     public $errorClass;
 
     /**
      * @var string
-     *
-     * @ES\Property(name="url", type="string")
      */
     public $url;
 
     /**
      * @var string
-     *
-     * @ES\Property(name="message", type="string")
      */
     public $message;
 
     /**
      * @var string
-     *
-     * @ES\Property(name="occurred", type="date")
      */
     public $occurred;
 
     /**
      * @var string
-     *
-     * @ES\Property(name="backtrace", type="string")
      */
     public $backtrace;
 
     /**
-     * @var ErrorParam[]
-     *
-     * @ES\Embedded(class="AppBundle:ErrorParam", multiple=true)
+     * @var []
      */
     public $parametersPost;
 
     /**
-     * @var ErrorParam[]
-     *
-     * @ES\Embedded(class="AppBundle:ErrorParam", multiple=true)
+     * @var []
      */
     public $parametersSession;
 
     /**
-     * @var ErrorParam[]
-     *
-     * @ES\Embedded(class="AppBundle:ErrorParam", multiple=true)
+     * @var []
      */
     public $parametersCookie;
 
     /**
-     * @var ErrorParam[]
-     *
-     * @ES\Embedded(class="AppBundle:ErrorParam", multiple=true)
+     * @var []
      */
     public $serverEnv;
 
     /**
-     * @var ErrorIp[]
-     *
-     * @ES\Embedded(class="AppBundle:ErrorIp", multiple=true)
+     * @var []
      */
     public $ips;
     
     /**
      * @var string
-     *
-     * @ES\Property(name="env", type="string")
      */
     public $env;
 
     /**
      * @var string
-     *
-     * @ES\Property(name="app", type="string")
      */
     public $app;
 
     /**
      * @var string
-     *
-     * @ES\Property(name="user", type="string")
      */
     public $user;
 
     /**
      * @var string
-     *
-     * @ES\Property(name="method", type="string")
      */
     public $method;
+
+    public function __construct()
+    {
+        $this->parametersPost = [];
+        $this->parametersSession = [];
+        $this->parametersCookie = [];
+        $this->serverEnv = [];
+        $this->ips = [];
+    }
+
+    /**
+     * Method to add new cookie parameter
+     *
+     * @param $key
+     * @param $value
+     */
+    public function addParametersCookies($key, $value)
+    {
+        if (false === is_array($this->parametersCookie)) {
+            $this->parametersCookie = [];
+        }
+        $this->parametersCookie[$key] = $value;
+    }
+
+    /**
+     * Method to add new post parameter
+     *
+     * @param $key
+     * @param $value
+     */
+    public function addParametersPosts($key, $value)
+    {
+        if (false === is_array($this->parametersPost)) {
+            $this->parametersPost = [];
+        }
+        $this->parametersCookie[$key] = $value;
+    }
+
+    /**
+     * Method to add new session parameter
+     *
+     * @param $key
+     * @param $value
+     */
+    public function addParametersSessions($key, $value)
+    {
+        if (false === is_array($this->parametersSession)) {
+            $this->parametersSession = [];
+        }
+        $this->parametersSession[$key] = $value;
+    }
+
+    /**
+     * Method to add new server environment
+     *
+     * @param $key
+     * @param $value
+     */
+    public function addServerEnvs($key, $value)
+    {
+        if (false === is_array($this->serverEnv)) {
+            $this->serverEnv = [];
+        }
+        $this->serverEnv[$key] = $value;
+    }
+
+    /**
+     * Method to add new ip address
+     *
+     * @param $address
+     */
+    public function addIps($address)
+    {
+        if (false === is_array($this->ips)) {
+            $this->ips = [];
+        }
+
+        $this->ips[] = $address;
+    }
 
     /**
      * Serialize BSON to save in MongoDB
@@ -128,7 +174,6 @@ class Error implements Persistable
     public function bsonSerialize()
     {
         return [
-            '_id' => $this->id,
             'errorClass' => $this->errorClass,
             'message' => $this->message,
             'occurred' => $this->occurred,
