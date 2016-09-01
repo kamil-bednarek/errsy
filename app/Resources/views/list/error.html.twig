@@ -2,65 +2,90 @@
 
 {% block body %}
 
-    <table class="hover stack">
-        {# Itterate throuh errors #}
-        <thead>
-        <th>
-            App
-        </th>
-        <th>
-            ENV
-        </th>
-        <th>
-            Method
-        </th>
-        <th>
-            Message
-        </th>
-        <th>
-            Occurred
-        </th>
-        <th>
-            Actions
-        </th>
-        </thead>
-        {% for error in errors %}
-            <tr>
-                <td>
-                    <span class="secondary label">{{ error.app }}</span>
-                </td>
-                <td>
-                    <span class="secondary label">{{ error.env }}</span>
-                </td>
-                <td>
-                    {% if error.method|lower == "get" %}
-                        <span class="success label">{{ error.method }}</span>
-                    {% elseif error.method|lower == "post" %}
-                        <span class="warning label">{{ error.method }}</span>
-                    {% elseif error.method|lower == "put" %}
-                        <span class="warning label">{{ error.method }}</span>
-                    {% elseif error.method|lower == "delete" %}
-                        <span class="secondary label">{{ error.method }}</span>
-                    {% elseif error.method|lower == "update" %}
-                        <span class="secondary label">{{ error.method }}</span>
-                    {% else %}
-                        <span class="alert label">{{ error.method }}</span>
-                    {% endif %}
-                </td>
-                <td>
-                    {{ error.message }}
-                </td>
-                <td>
-                    {{ error.occurred.date|time_diff }}
-                </td>
-                <td>
-                    <a href="{{ path('show_error', {'id': error.id}) }}"><i class="material-icons circle">visibility</i></a>
-                    <a href="{{ path('error_fix_like_this', {'id': error.id}) }}"><i class="material-icons circle">done_all</i></a>
-                </td>
-            </tr>
-        {% endfor %}
-     </table>
+    <div class="column medium-9">
+        <table class="hover stack">
+            {# Itterate throuh errors #}
+            <thead>
+            <th>
+                App
+            </th>
+            <th>
+                ENV
+            </th>
+            <th>
+                Method
+            </th>
+            <th>
+                Message
+            </th>
+            <th>
+                Occurred
+            </th>
+            <th>
+                Actions
+            </th>
+            </thead>
+            {% for error in errors %}
+                <tr>
+                    <td>
+                        <span class="secondary label">{{ error.app }}</span>
+                    </td>
+                    <td>
+                        <span class="secondary label">{{ error.env }}</span>
+                    </td>
+                    <td>
+                        {% if error.method|lower == "get" %}
+                            <span class="success label">{{ error.method }}</span>
+                        {% elseif error.method|lower == "post" %}
+                            <span class="warning label">{{ error.method }}</span>
+                        {% elseif error.method|lower == "put" %}
+                            <span class="warning label">{{ error.method }}</span>
+                        {% elseif error.method|lower == "delete" %}
+                            <span class="secondary label">{{ error.method }}</span>
+                        {% elseif error.method|lower == "update" %}
+                            <span class="secondary label">{{ error.method }}</span>
+                        {% else %}
+                            <span class="alert label">{{ error.method }}</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {{ error.message }}
+                    </td>
+                    <td>
+                        {{ error.occurred.date|time_diff }}
+                    </td>
+                    <td>
+                        <a href="{{ path('show_error', {'id': error.id}) }}"><i class="material-icons circle">visibility</i></a>
+                        <a href="{{ path('error_fix_like_this', {'id': error.id}) }}"><i class="material-icons circle">done_all</i></a>
+                    </td>
+                </tr>
+            {% endfor %}
+         </table>
 
-    {{ knp_pagination_render(errors) }}
+        {{ knp_pagination_render(errors) }}
+    </div>
+    <div class="column medium-3">
+        <div class="row">
+            {% if searching.message is defined and searching.message|length > 0 %}
+                <span class="label">Message: {{ searching.message }}</span>
+            {% endif %}
+            {% if searching.app is defined %}
+                {% for data in searching.app %}
+                    <span class="label">APP: {{ data }}</span>
+                {% endfor %}
+            {% endif %}
+            {% if searching.env is defined %}
+                {% for data in searching.env %}
+                    <span class="label">ENV: {{ data }}</span>
+                {% endfor %}
+            {% endif %}
+            {% if searching.method is defined %}
+                {% for data in searching.method %}
+                    <span class="label">METHOD: {{ data }}</span>
+                {% endfor %}
+            {% endif %}
+        </div>
+        {{ form(filters) }}
+    </div>
 
 {% endblock %}
