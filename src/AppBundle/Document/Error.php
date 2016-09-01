@@ -8,6 +8,7 @@
 namespace AppBundle\Document;
 
 use MongoDB\BSON\Persistable;
+use MongoDB\BSON\UTCDatetime;
 
 class Error implements Persistable
 {
@@ -175,7 +176,7 @@ class Error implements Persistable
         return [
             'errorClass' => $this->errorClass,
             'message' => $this->message,
-            'occurred' => $this->occurred,
+            'occurred' => new UTCDatetime(round(microtime(true) * 1000)),
             'backtrace' => $this->backtrace,
             'parametersPost' => $this->parametersPost,
             'parametersSession' => $this->parametersSession,

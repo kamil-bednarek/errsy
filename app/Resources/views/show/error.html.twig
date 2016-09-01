@@ -21,8 +21,8 @@
                             <li class="price">{{ error.message }}</li>
                             <li class="description">
                                 {% if error.occurred is defined %}
-                                    {{ error.occurred.date|date('Y-m-d H:i:s') }} <br />
-                                    {{ error.occurred.date|time_diff }}
+                                    {{ error.occurred.toDateTime|date('Y-m-d H:i:s') }} <br />
+                                    {{ error.occurred.toDateTime|time_diff }}
                             </li>
                             {% endif %}
                             </li>

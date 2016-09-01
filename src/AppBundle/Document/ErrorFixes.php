@@ -8,6 +8,7 @@
 namespace AppBundle\Document;
 
 use MongoDB\BSON\Persistable;
+use MongoDB\BSON\UTCDatetime;
 
 class ErrorFixes implements Persistable
 {
@@ -29,7 +30,7 @@ class ErrorFixes implements Persistable
     {
         return [
             'count' => $this->count,
-            'date' => $this->date,
+            'date' => new UTCDatetime(round(microtime(true) * 1000)),
         ];
     }
 
