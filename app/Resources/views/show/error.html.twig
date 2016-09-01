@@ -1,160 +1,145 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <div class="row">
+    <div class="content">
 
-        <div style="margin-top: 3%"></div>
 
-        <div class="chip green">
-            APP: <strong>{{ error.app }}</strong>
-        </div>
 
-        {% if error.env is defined %}
-            <div class="chip">
-                ENV: <strong>{{ error.env }}</strong>
-            </div>
-        {% endif %}
 
-        {% if error.method is defined %}
-            <div class="chip red">
-                METHOD: <strong>{{ error.method }}</strong>
-            </div>
-        {% endif %}
 
-        {% if error.user is defined %}
-            <div class="chip cyan">
-                USER: <strong>{{ error.user }}</strong>
-            </div>
-        {% endif %}
 
-        <div class="chip">
-            SAME: {{ errors.getTotalItemCount() }}
-        </div>
 
-        <ul class="collection">
-            <li class="collection-item avatar">
-                <i class="material-icons circle red">message</i>
-                <span class="title"><strong>Message</strong></span>
-                <div class="card">
-                    <div class="card-content grey darken-4 cyan-text text-lighten-5">
-                        {{ error.message }} <br />
-                        <i>AT: <a href="{{ error.url }}">{{ error.url }}</a></i>
+        <div class="content column medium-12">
+            <ul class="tabs text-center" data-tabs id="example-tabs">
+                <li class="tabs-title is-active"><a href="#panel1" aria-selected="true"> <i class="material-icons circle cyan">folder</i>General</a></li>
+                <li class="tabs-title"><a href="#panel2"><i class="material-icons circle red">rss_feed</i> Backtrace</a></li>
+                <li class="tabs-title"><a href="#panel3"><i class="material-icons circle cyan">fingerprint</i> Session</a></li>
+                <li class="tabs-title"><a href="#panel4"><i class="material-icons circle cyan">input</i> POST</a></li>
+                <li class="tabs-title"><a href="#panel5"><i class="material-icons circle">brightness_low</i> Cookies</a></li>
+                <li class="tabs-title"><a href="#panel6"><i class="material-icons circle cyan">cloud</i> Server</a></li>
+            </ul>
+            <div class="tabs-content" data-tabs-content="example-tabs">
+                <div class="tabs-panel is-active" id="panel1">
+
+                    <div class="column medium-12">
+                        <ul class="pricing-table no-bullet">
+                            <li class="title">{{ error.url }}</li>
+                            <li class="price">{{ error.message }}</li>
+                            <li class="description">
+                                {% if error.occurred is defined %}
+                                    {{ error.occurred.date|date('Y-m-d H:i:s') }} <br />
+                                    {{ error.occurred.date|time_diff }}
+                            </li>
+                            {% endif %}
+                            </li>
+                            <li>
+                                <div class="label">
+                                    APP: <strong>{{ error.app }}</strong>
+                                </div>
+                            </li>
+
+                            {% if errors.getTotalItemCount() > 0 %}
+                            <li>
+                                <div class="label alert">
+                                    SAME: {{ errors.getTotalItemCount() }}
+                                </div>
+                            </li>
+                            {% endif %}
+
+                            {% if error.env is defined %}
+                                <li>
+                                    <div class="label">
+                                        ENV: <strong>{{ error.env }}</strong>
+                                    </div>
+                                </li>
+                            {% endif %}
+
+                            {% if error.method is defined %}
+                                <li>
+                                    <div class="label">
+                                        METHOD: <strong>{{ error.method }}</strong>
+                                    </div>
+                                </li>
+                            {% endif %}
+
+                            {% if error.user is defined %}
+                                <li>
+                                    <div class="label">
+                                        USER: <strong>{{ error.user }}</strong>
+                                    </div>
+                                </li>
+                            {% endif %}
+
+                            <li>
+                                {% if error.ips is defined %}
+                                    {% for ip in error.ips %}
+                                        <span class="label"> {{ ip }} </span>
+                                    {% endfor %}
+                                {% endif %}
+                            </li>
+                        </ul>
                     </div>
+
+                    <div class="clearfix"></div>
+
                 </div>
-            </li>
-            {% if error.ips is defined %}
-                <li class="collection-item avatar">
-                    <i class="material-icons circle">language</i>
-                    <span class="title"><strong>IP Addresses</strong></span>
-                    <div class="card">
-                        <div class="card-content grey darken-4 cyan-text text-lighten-5">
-                            <ul>
-                                {% for ip in error.ips %}
-                                    <li> {{ ip }} </li>
-                                {% endfor %}
-                            </ul>
-                        </div>
-                    </div>
-                </li>
-            {% endif %}
-            {% if error.occurred is defined %}
-                <li class="collection-item avatar">
-                    <i class="material-icons circle">av_timer</i>
-                    <span class="title"><strong>Occurred</strong></span>
-                    <div class="card">
-                        <div class="card-content grey darken-4 cyan-text text-lighten-5">
-                            {{ error.occurred.date|date('Y-m-d H:i:s') }} <br />
-                            {{ error.occurred.date|time_diff }}
-                        </div>
-                    </div>
-                </li>
-            {% endif %}
-            {% if error.backtrace is defined %}
-                <li class="collection-item avatar">
-                    <i class="material-icons circle red">rss_feed</i>
-                    <span class="title"><strong>Backtrace</strong></span>
-                    <div class="card">
-                        <div class="card-content grey darken-4 cyan-text text-lighten-5">
-                            <p>
-                                {{ error.backtrace|nl2br }}
-                            </p>
-                        </div>
-                    </div>
-                </li>
-            {% endif %}
-            {% if error.parametersPost is defined %}
-                <li class="collection-item avatar">
-                    <i class="material-icons circle cyan">swap_calls</i>
-                    <span class="title"><strong>POST</strong></span>
-                    <div class="card">
-                        <div class="card-content grey darken-4 cyan-text text-lighten-5">
-                            <table>
-                                {% for post in error.parametersPost %}
-                                    <tr>
-                                        <td> <strong>{{ post.key }}</strong> </td>
-                                        <td> {{ post.value }} </td>
-                                    </tr>
-                                {% endfor %}
-                            </table>
-                        </div>
-                    </div>
-                </li>
-            {% endif %}
-            {% if error.parametersCookie is defined  %}
-                <li class="collection-item avatar">
-                    <i class="material-icons circle">swap_calls</i>
-                    <span class="title"><strong>COOKIES</strong></span>
-                    <div class="card">
-                        <div class="card-content grey darken-4 cyan-text text-lighten-5">
-                            <table class="bordered">
-                                {% for key,cookie in error.parametersCookie %}
-                                    <tr>
-                                        <td> <strong>{{ key }}</strong> </td>
-                                        <td> {{ cookie }} </td>
-                                    </tr>
-                                {% endfor %}
-                            </table>
-                        </div>
-                    </div>
-                </li>
-            {% endif %}
-            {% if error.parametersSession is defined %}
-                <li class="collection-item avatar">
-                    <i class="material-icons circle">swap_calls</i>
-                    <span class="title"><strong>SESSION</strong></span>
-                    <div class="card">
-                        <div class="card-content grey darken-4 cyan-text text-lighten-5">
-                            <table>
-                                {% for key,session in error.parametersSession %}
-                                    <tr>
-                                        <td> <strong>{{ key }}</strong> </td>
-                                        <td> {{ session }} </td>
-                                    </tr>
-                                {% endfor %}
-                            </table>
-                        </div>
-                    </div>
-                </li>
-            {% endif %}
-            {% if error.serverEnv is defined %}
-                <li class="collection-item avatar">
-                    <i class="material-icons circle green">web</i>
-                    <span class="title"><strong>SERVER</strong></span>
-                    <div class="card">
-                        <div class="card-content grey darken-4 cyan-text text-lighten-5">
-                            <table>
-                                {% for key,server in error.serverEnv %}
-                                    <tr>
-                                        <td> <strong>{{ key }}</strong> </td>
-                                        <td> {{ server }} </td>
-                                    </tr>
-                                {% endfor %}
-                            </table>
-                        </div>
-                    </div>
-                </li>
-            {% endif %}
-        </ul>
+                <div class="tabs-panel" id="panel2">
+                    {% if error.backtrace is defined %}
+                        <p class="backtrace">
+                            {{ error.backtrace|nl2br }}
+                        </p>
+                    {% endif %}
+                </div>
+                <div class="tabs-panel" id="panel3">
+                    {% if error.parametersSession is defined %}
+                        <table>
+                            {% for key,session in error.parametersSession %}
+                                <tr>
+                                    <td> <strong>{{ key }}</strong> </td>
+                                    <td> {{ session }} </td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    {% endif %}
+                </div>
+                <div class="tabs-panel" id="panel4">
+                    {% if error.parametersPost is defined %}
+                        <table>
+                            {% for post in error.parametersPost %}
+                                <tr>
+                                    <td> <strong>{{ post.key }}</strong> </td>
+                                    <td> {{ post.value }} </td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    {% endif %}
+                </div>
+                <div class="tabs-panel" id="panel5">
+                    {% if error.parametersCookie is defined  %}
+                        <table>
+                            {% for key,cookie in error.parametersCookie %}
+                                <tr>
+                                    <td> <strong>{{ key }}</strong> </td>
+                                    <td> {{ cookie }} </td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    {% endif %}
+                </div>
+                <div class="tabs-panel" id="panel6">
+                    {% if error.serverEnv is defined %}
+                        <table>
+                            {% for key,server in error.serverEnv %}
+                                <tr>
+                                    <td> <strong>{{ key }}</strong> </td>
+                                    <td> {{ server }} </td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
 
         {% if errors.getTotalItemCount() > 0 %}
             <div class="container">
