@@ -15,7 +15,7 @@ services:
     # MongoDB provider service
     mongodb_provider:
         class: AppBundle\Service\MongoDBService
-        arguments: ["mongodb://localhost:27017", "error"]
+        arguments: ["%mongodb.connection.string%", "%mongodb.connection.database%"]
 
     # Subscriber for KnpPaginatorBundle
     subscriber_mongodb_pager:
@@ -37,14 +37,3 @@ services:
         arguments: ['@request_stack']
         calls:
             - ['setProvider', ['@mongodb_provider']]
-
-#    erkam.search.service:
-#        class: AppBundle\Service\SearchService
-#        arguments: ['@es.manager.default.error']
-
-#    ongr_filter_manager:
-#        cache:
-#            engine: 'es.cache_engine' # cache engine, set null to disable caching
-#            life_time: 1080 # cache life time in seconds, 3 hours default
-#            exclude:
-#                - search
