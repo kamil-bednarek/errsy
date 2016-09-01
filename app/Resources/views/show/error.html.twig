@@ -27,6 +27,10 @@
             </div>
         {% endif %}
 
+        <div class="chip">
+            SAME: {{ errors.getTotalItemCount() }}
+        </div>
+
         <ul class="collection">
             <li class="collection-item avatar">
                 <i class="material-icons circle red">message</i>
@@ -151,5 +155,48 @@
                 </li>
             {% endif %}
         </ul>
+
+        {% if errors.getTotalItemCount() > 0 %}
+            <div class="container">
+                <h4> There is the same {{ errors.getTotalItemCount() }} errors </h4>
+                <table class="striped bordered">
+                    {# Itterate throuh errors #}
+                    <thead>
+                    <th>
+                        Method
+                    </th>
+                    <th>
+                        Message
+                    </th>
+                    <th>
+                        Occurred
+                    </th>
+                    <th>
+                        Actions
+                    </th>
+                    </thead>
+                    {% for error in errors %}
+                        <tr>
+                            <td>
+                                <div class="chip">
+                                    {{ error.method }}
+                                </div>
+                            </td>
+                            <td>
+                                {{ error.message }}
+                            </td>
+                            <td>
+                                {{ error.occurred.date|time_diff }}
+                            </td>
+                            <td>
+                                <a href="{{ path('show_error', {'id': error.id}) }}"><i class="material-icons circle">visibility</i></a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </table>
+
+                {{ knp_pagination_render(errors) }}
+            </div>
+        {% endif %}
     </div>
 {% endblock %}

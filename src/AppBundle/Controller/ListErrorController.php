@@ -8,9 +8,6 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Query\MongoDBQuery;
-use ONGR\ElasticsearchBundle\Result\Result;
-use ONGR\ElasticsearchDSL\Query\TermQuery;
-use ONGR\ElasticsearchDSL\Search;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,13 +20,13 @@ class ListErrorController extends Controller
     }
 
     /**
-     * @Route("/list", name="list_error")
+     * @Route("/", name="homepage")
      */
     public function listAction(Request $request)
     {
         $query = new MongoDBQuery('error');
         $query->setQuery([]);
-        $query->setSort(['occurred.date' => 1]);
+        $query->setSort(['occurred.date' => -1]);
 
         $paginator = $this->get('knp_paginator');
         $errors = $paginator->paginate(
