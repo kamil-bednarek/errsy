@@ -36,8 +36,6 @@ class ErkamService
 
     public function handleException(\Exception $exception)
     {
-        $manager = $this->getRepo()->getManager();
-
         $request = $this->requestStack->getCurrentRequest();
         $error = new Error();
         $error->app = 'erkam';
@@ -48,52 +46,33 @@ class ErkamService
         $error->url = $request->getSchemeAndHttpHost().$request->getRequestUri();
         $error->user = $request->getUser();
         $error->method = $request->getMethod();
-        $error->ips = new Collection();
-        $error->parametersCookie = new Collection();
-        $error->parametersSession = new Collection();
-        $error->parametersPost = new Collection();
-        $error->serverEnv = new Collection();
+
 
         // Fetch client ip address
         foreach ($request->getClientIps() as $ip) {
-            $ipObj = new ErrorIp();
-            $ipObj->ip = $ip;
-            $error->ips[] = $ipObj;
+            $error->addIps($ip);
         }
 
         // Fetch cookies
         foreach ($request->cookies->all() as $key => $value) {
-            $obj = new ErrorParam();
-            $obj->key = $key;
-            $obj->value = $value;
-            $error->parametersCookie[] = $obj;
+            $error->addParametersCookies($key, $value);
         }
 
         // Fetch POST
         foreach ($request->request->all() as $key => $value) {
-            $obj = new ErrorParam();
-            $obj->key = $key;
-            $obj->value = $value;
-            $error->parametersPost[] = $obj;
+            $error->addParametersPosts($key, $value);
         }
 
         // Fetch SERVER
         foreach ($request->server->all() as $key => $value) {
-            $obj = new ErrorParam();
-            $obj->key = $key;
-            $obj->value = $value;
-            $error->serverEnv[] = $obj;
+            $error->addServerEnvs($key, $value);
         }
 
         // Fetch SESSION
         foreach ($request->getSession()->all() as $key => $value) {
-            $obj = new ErrorParam();
-            $obj->key = $key;
-            $obj->value = $value;
-            $error->parametersSession[] = $obj;
+            $error->addParametersSessions($key, $value);
         }
 
-        $manager->persist($error);
-        $manager->commit();
+        $this->getProvider()->getCollection('error')->insertOne($error);
     }
 }

@@ -12,18 +12,18 @@ services:
         arguments: ["mongodb://localhost:27017", "error"]
 
     # Application exception listener - logs all application exceptions
-#    erkam.exception_listener:
-#        class: AppBundle\EventListener\ExceptionListener
-#        arguments: ['@erkam.service']
-#        tags:
-#            - { name: kernel.event_listener, event: kernel.exception }
+    erkam.exception_listener:
+        class: AppBundle\EventListener\ExceptionListener
+        arguments: ['@erkam.service']
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception }
 
     # Main application service to handle all local actions
-#    erkam.service:
-#        class: AppBundle\Service\ErkamService
-#        arguments: ['@request_stack']
-#        calls:
-#            - ['setRepo', ['@es.manager.default.error']]
+    erkam.service:
+        class: AppBundle\Service\ErkamService
+        arguments: ['@request_stack']
+        calls:
+            - ['setProvider', ['@mongodb_provider']]
 
 #    erkam.search.service:
 #        class: AppBundle\Service\SearchService
