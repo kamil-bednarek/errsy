@@ -29,12 +29,13 @@ class ListErrorController extends Controller
     {
         $query = new MongoDBQuery('error');
         $query->setQuery([]);
+        $query->setSort(['occurred.date' => 1]);
 
         $paginator = $this->get('knp_paginator');
         $errors = $paginator->paginate(
             $query,
             $request->query->getInt('page', 1),
-            10
+            25
         );
 //
 //        $results = $this->get('ongr_filter_manager.search_list')->handleRequest($request);

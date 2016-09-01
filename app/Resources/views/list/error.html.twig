@@ -1,7 +1,60 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    {{ dump(errors) }}
+    {#{{ dump(errors) }}#}
+
+    <table class="striped bordered">
+        {# Itterate throuh errors #}
+        <thead>
+        <th>
+            Application
+        </th>
+        <th>
+            ENV
+        </th>
+        <th>
+            Method
+        </th>
+        <th>
+            Message
+        </th>
+        <th>
+            Occurred
+        </th>
+        <th>
+            Actions
+        </th>
+        </thead>
+        {% for error in errors %}
+            <tr>
+                <td>
+                    <div class="chip">
+                        {{ error.app }}
+                    </div>
+                </td>
+                <td>
+                    <div class="chip">
+                        {{ error.env }}
+                    </div>
+                </td>
+                <td>
+                    <div class="chip">
+                        {{ error.method }}
+                    </div>
+                </td>
+                <td>
+                    {{ error.message }}
+                </td>
+                <td>
+                    {{ error.occurred.date|time_diff }}
+                </td>
+                <td>
+                    <a href="{{ path('show_error', {'id': error.id}) }}"><i class="material-icons circle">visibility</i></a>
+                    <a href="#"><i class="material-icons circle">done_all</i></a>
+                </td>
+            </tr>
+        {% endfor %}
+     </table>
 
     {# total items count #}
     {#<div class="count">#}
@@ -28,7 +81,7 @@
 
     {# display navigation #}
     {#{{ errors.getTotalItemCount() }}#}
-    <div class="navigation">
+    {#<div class="navigation">#}
         {{ knp_pagination_render(errors) }}
-    </div>
+    {#</div>#}
 {% endblock %}

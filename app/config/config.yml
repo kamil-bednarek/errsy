@@ -45,6 +45,7 @@ swiftmailer:
     password:  "%mailer_password%"
     spool:     { type: memory }
 
+# Default paginator parameters
 knp_paginator:
     page_range: 5                      # default page range used in pagination control
     default_options:
@@ -53,5 +54,5 @@ knp_paginator:
         sort_direction_name: direction # sort direction query parameter name
         distinct: true                 # ensure distinct results, useful when ORM queries are using GROUP BY statements
     template:
-        pagination: KnpPaginatorBundle:Pagination:sliding.html.twig     # sliding pagination controls template
+        pagination: default/pagination.html.twig     # sliding pagination controls template
         sortable: KnpPaginatorBundle:Pagination:sortable_link.html.twig # sort link template

@@ -35,7 +35,8 @@ class PaginateMongodbSubscriber implements EventSubscriberInterface
         $event->count = $this->mongoDBService->getCollection($target->getCollection())->count($target->getQuery());
         $event->items = $this->mongoDBService->getCollection($target->getCollection())->find($target->getQuery(), [
             'skip' => $offset,
-            'limit' => $limit
+            'limit' => $limit,
+            'sort' => $target->getSort()
         ])->toArray();
 
         $event->stopPropagation();

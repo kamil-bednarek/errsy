@@ -13,9 +13,31 @@ class MongoDBQuery
 
     private $query = [];
 
+    private $sort = [];
+
     public function __construct($collection)
     {
         $this->collection = $collection;
+    }
+
+    /**
+     * Default getter for Sort
+     *
+     * @return array
+     */
+    public function getSort()
+    {
+        return $this->sort;
+    }
+
+    /**
+     * Default setter for Sort
+     *
+     * @param array $sort
+     */
+    public function setSort($sort)
+    {
+        $this->sort = $sort;
     }
 
     /**

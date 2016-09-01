@@ -6,6 +6,12 @@ parameters:
 # RAD services definition
 services:
 
+    # Date Diff extension
+    app.twig.extension.date:
+        class:        Twig_Extensions_Extension_Date
+        tags:
+             - { name: 'twig.extension' }
+
     # MongoDB provider service
     mongodb_provider:
         class: AppBundle\Service\MongoDBService
