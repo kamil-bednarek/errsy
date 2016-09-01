@@ -38,7 +38,6 @@ class ListErrorController extends Controller
      */
     public function listAction(Request $request)
     {
-        $search = $request->get('search', null);
         $data = [];
 
         $form = $this->createFormBuilder($data)
@@ -78,7 +77,7 @@ class ListErrorController extends Controller
             $queryData = $searching->getData();
             $queryMongo = [];
 
-            dump($queryData);
+            $form->setData($queryData);
 
             if (mb_strlen($queryData['message']) > 0) {
                 $queryMongo['message'] = ['$regex' => $queryData['message']];
