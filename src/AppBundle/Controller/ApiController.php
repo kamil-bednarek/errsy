@@ -23,7 +23,7 @@ class ApiController extends Controller
      * @Route("/api/v1/error/fix", name="api_batch_fix")
      * @Method("POST")
      */
-    public function deploymentWithFixes(Request $request)
+    public function deploymentWithFixesAction(Request $request)
     {
         $content = json_decode($request->getContent());
         $fixes = new ErrorFixes();
@@ -56,47 +56,9 @@ class ApiController extends Controller
 
         if (true === is_array($content)) {
             foreach ($content as $exception) {
-                $error = new Error();
-                $error->message = $exception->message;
-                $error->app = $exception->app;
-                $error->backtrace = $exception->backtrace;
-                $error->env = $exception->env;
-                $error->method = $exception->method;
-                $error->errorClass = $exception->errorClass;
-                $error->url = $exception->url;
-                $error->user = $exception->user;
-
-                if (true === is_array($exception->parametersPost)) {
-                    foreach ($exception->parametersPost as $param) {
-                        $error->addParametersPosts($param->key, $param->value);
-                    }
-                }
-
-                if (true === is_array($exception->parametersCookie)) {
-                    foreach ($exception->parametersCookie as $param) {
-                        $error->addParametersCookies($param->key, $param->value);
-                    }
-                }
-
-                if (true === is_array($exception->parametersSession)) {
-                    foreach ($exception->parametersSession as $param) {
-                        $error->addParametersSessions($param->key, $param->value);
-                    }
-                }
-
-                if (true === is_array($exception->serverEnv)) {
-                    foreach ($exception->serverEnv as $env) {
-                        $error->addServerEnvs($env->key, $env->value);
-                    }
-                }
-
-                if (true === is_array($exception->ips)) {
-                    foreach ($exception->ips as $ip) {
-                        $error->addIps($ip->ip);
-                    }
-                }
-
-                $this->get('mongodb_provider')->getCollection('error')->insertOne($error);
+                $this->get('mongodb_provider')->getCollection('error')->insertOne(
+                    $this->handleExceptionData($exception)
+                );
             }
         }
 
@@ -106,5 +68,57 @@ class ApiController extends Controller
         ));
 
         return $response;
+    }
+
+    /**
+     * Method to handle exception data
+     *
+     * @param $exception
+     *
+     * @return Error
+     */
+    private function handleExceptionData($exception)
+    {
+        $error = new Error();
+        $error->message = $exception->message;
+        $error->app = $exception->app;
+        $error->backtrace = $exception->backtrace;
+        $error->env = $exception->env;
+        $error->method = $exception->method;
+        $error->errorClass = $exception->errorClass;
+        $error->url = $exception->url;
+        $error->user = $exception->user;
+
+        if (true === is_array($exception->parametersPost)) {
+            foreach ($exception->parametersPost as $param) {
+                $error->addParametersPosts($param->key, $param->value);
+            }
+        }
+
+        if (true === is_array($exception->parametersCookie)) {
+            foreach ($exception->parametersCookie as $param) {
+                $error->addParametersCookies($param->key, $param->value);
+            }
+        }
+
+        if (true === is_array($exception->parametersSession)) {
+            foreach ($exception->parametersSession as $param) {
+                $error->addParametersSessions($param->key, $param->value);
+            }
+        }
+
+        if (true === is_array($exception->serverEnv)) {
+            foreach ($exception->serverEnv as $env) {
+                $error->addServerEnvs($env->key, $env->value);
+            }
+        }
+
+        if (true === is_array($exception->ips)) {
+            foreach ($exception->ips as $ip) {
+                $error->addIps($ip->ip);
+            }
+        }
+
+        return $error;
     }
 }

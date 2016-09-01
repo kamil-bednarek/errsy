@@ -8,9 +8,6 @@
 namespace AppBundle\Service;
 
 use AppBundle\Document\Error;
-use AppBundle\Document\ErrorIp;
-use AppBundle\Document\ErrorParam;
-use ONGR\ElasticsearchBundle\Collection\Collection;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 /**

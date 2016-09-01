@@ -28,7 +28,7 @@ class ErrorController extends Controller
      * @Route("/deployments", name="error_deployments")
      * @Method("GET")
      */
-    public function deploymentList(Request $request)
+    public function deploymentListAction(Request $request)
     {
         $query = new MongoDBQuery('error_fixes');
         $query->setQuery(['deploy' => true]);

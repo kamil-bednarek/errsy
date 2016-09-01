@@ -7,8 +7,6 @@
  */
 namespace AppBundle\Service;
 
-use ONGR\ElasticsearchBundle\Service\Repository;
-
 /**
  * Trait ErkamServiceTrait
  *
