@@ -22,6 +22,36 @@ class ErrorController extends Controller
     }
 
     /**
+     * @Route("/clear/{app}/{env}", name="error_clear")
+     */
+    public function clearAction($app, $env, Request $request)
+    {
+        $this->getDataProvider()->deleteMany([
+            'app' => $app,
+            'env' => $env
+        ]);
+
+        $referer = $request->headers->get('referer');
+        return new RedirectResponse($referer);
+    }
+
+    /**
+     * @Route("/clear/index", name="error_clear_index")
+     */
+    public function clearViewAction()
+    {
+        $data = [];
+        $apps = $this->getDataProvider()->distinct('app');
+        foreach ($apps as $app) {
+            $data[$app] = $this->getDataProvider()->distinct('env', ['app' => $app]);
+        }
+
+        return $this->render(':error:clear.html.twig', [
+            'applications' => $data
+        ]);
+    }
+
+    /**
      * @Route("/fix_like_this/{id}", name="error_fix_like_this")
      */
     public function fixLikeThisAction($id, Request $request)
