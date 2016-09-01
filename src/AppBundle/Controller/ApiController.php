@@ -9,6 +9,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Document\Error;
 use AppBundle\Document\ErrorFixes;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -20,6 +21,7 @@ class ApiController extends Controller
      * Route to delete all errors after deploy and sign it as a deploy
      *
      * @Route("/api/v1/error/fix", name="api_batch_fix")
+     * @Method("POST")
      */
     public function deploymentWithFixes(Request $request)
     {
@@ -46,6 +48,7 @@ class ApiController extends Controller
      * This is also fallback for first version with Elasticsearch Data
      *
      * @Route("/api/v1/error/_batch", name="api_batch_insert")
+     * @Method("POST")
      */
     public function batchInsertAction(Request $request)
     {

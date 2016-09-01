@@ -22,6 +22,13 @@ class ListErrorController extends Controller
         return $this->get('mongodb_provider')->getCollection('error');
     }
 
+    /**
+     * Method for getting data for choice type
+     *
+     * @param $field
+     *
+     * @return array
+     */
     private function getDataForChoice($field) {
         $choicesAppTmp = $this->getDataProvider()->distinct($field);
         $choicesApp = [];
@@ -35,6 +42,7 @@ class ListErrorController extends Controller
 
     /**
      * @Route("/", name="homepage")
+     * @Method("GET")
      */
     public function listAction(Request $request)
     {

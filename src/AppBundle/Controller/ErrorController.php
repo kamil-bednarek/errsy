@@ -10,6 +10,7 @@ namespace AppBundle\Controller;
 use AppBundle\Document\ErrorFixes;
 use AppBundle\Query\MongoDBQuery;
 use MongoDB\BSON\ObjectID;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -25,6 +26,7 @@ class ErrorController extends Controller
 
     /**
      * @Route("/deployments", name="error_deployments")
+     * @Method("GET")
      */
     public function deploymentList(Request $request)
     {
@@ -46,6 +48,7 @@ class ErrorController extends Controller
 
     /**
      * @Route("/stats/fixes", name="error_stats_fixes")
+     * @Method("GET")
      */
     public function statsFixesAction()
     {
@@ -166,6 +169,7 @@ class ErrorController extends Controller
 
     /**
      * @Route("/stats", name="error_stats")
+     * @Method("GET")
      */
     public function statsAction()
     {
@@ -286,6 +290,7 @@ class ErrorController extends Controller
 
     /**
      * @Route("/clear/{app}/{env}", name="error_clear")
+     * @Method("GET")
      */
     public function clearAction($app, $env, Request $request)
     {
@@ -304,6 +309,7 @@ class ErrorController extends Controller
 
     /**
      * @Route("/clear/index", name="error_clear_index")
+     * @Method("GET")
      */
     public function clearViewAction()
     {
@@ -320,6 +326,7 @@ class ErrorController extends Controller
 
     /**
      * @Route("/fix_like_this/{id}", name="error_fix_like_this")
+     * @Method("GET")
      */
     public function fixLikeThisAction($id, Request $request)
     {

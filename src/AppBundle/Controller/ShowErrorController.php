@@ -23,6 +23,7 @@ class ShowErrorController extends Controller
 
     /**
      * @Route("/show/{id}", name="show_error")
+     * @Method("GET")
      */
     public function listAction($id, Request $request)
     {
