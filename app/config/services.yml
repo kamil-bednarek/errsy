@@ -11,6 +11,13 @@ services:
         class: AppBundle\Service\MongoDBService
         arguments: ["mongodb://localhost:27017", "error"]
 
+    # Subscriber for KnpPaginatorBundle
+    subscriber_mongodb_pager:
+        class: AppBundle\Subscriber\PaginateMongodbSubscriber
+        arguments: ['@mongodb_provider']
+        tags:
+            - { name: knp_paginator.subscriber }
+
     # Application exception listener - logs all application exceptions
     erkam.exception_listener:
         class: AppBundle\EventListener\ExceptionListener
