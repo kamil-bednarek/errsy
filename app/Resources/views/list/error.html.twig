@@ -2,11 +2,11 @@
 
 {% block body %}
 
-    <table class="striped bordered">
+    <table class="hover stack">
         {# Itterate throuh errors #}
         <thead>
         <th>
-            Application
+            App
         </th>
         <th>
             ENV
@@ -27,19 +27,25 @@
         {% for error in errors %}
             <tr>
                 <td>
-                    <div class="chip">
-                        {{ error.app }}
-                    </div>
+                    <span class="secondary label">{{ error.app }}</span>
                 </td>
                 <td>
-                    <div class="chip">
-                        {{ error.env }}
-                    </div>
+                    <span class="secondary label">{{ error.env }}</span>
                 </td>
                 <td>
-                    <div class="chip">
-                        {{ error.method }}
-                    </div>
+                    {% if error.method|lower == "get" %}
+                        <span class="success label">{{ error.method }}</span>
+                    {% elseif error.method|lower == "post" %}
+                        <span class="warning label">{{ error.method }}</span>
+                    {% elseif error.method|lower == "put" %}
+                        <span class="warning label">{{ error.method }}</span>
+                    {% elseif error.method|lower == "delete" %}
+                        <span class="secondary label">{{ error.method }}</span>
+                    {% elseif error.method|lower == "update" %}
+                        <span class="secondary label">{{ error.method }}</span>
+                    {% else %}
+                        <span class="alert label">{{ error.method }}</span>
+                    {% endif %}
                 </td>
                 <td>
                     {{ error.message }}
