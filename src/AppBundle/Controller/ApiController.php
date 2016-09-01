@@ -8,6 +8,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Document\Error;
+use AppBundle\Document\ErrorFixes;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -15,6 +16,31 @@ use Symfony\Component\HttpFoundation\Request;
 
 class ApiController extends Controller
 {
+    /**
+     * Route to delete all errors after deploy and sign it as a deploy
+     *
+     * @Route("/api/v1/error/fix", name="api_batch_fix")
+     */
+    public function deploymentWithFixes(Request $request)
+    {
+        $content = json_decode($request->getContent());
+        $fixes = new ErrorFixes();
+        $fixes->deploy = true;
+        $fixes->count = $this->get('mongodb_provider')->getCollection('error')->deleteMany([
+            'app' => $content->app,
+            'env' => $content->env
+        ])->getDeletedCount();
+
+        $this->get('mongodb_provider')->getCollection('error_fixes')->insertOne($fixes);
+
+        $response = new JsonResponse();
+        $response->setData(array(
+            'done' => true
+        ));
+
+        return $response;
+    }
+
     /**
      * Route to save proper data to MongoDB service
      * This is also fallback for first version with Elasticsearch Data

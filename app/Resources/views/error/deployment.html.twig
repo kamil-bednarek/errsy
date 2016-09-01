@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="row">
+        <h3> Deployment informations </h3>
+
+        <table>
+        {% for deploy in deploys %}
+            <tr>
+                <td> {{ deploy.date.toDateTime()|date('Y-m-d H:i:s') }} </td>
+                <td> {{ deploy.count }} errors fixed </td>
+            </tr>
+        {% endfor %}
+        </table>
+
+        {{ knp_pagination_render(deploys) }}
+    </div>
+{% endblock %}

@@ -19,6 +19,8 @@ class ErrorFixes implements Persistable
 
     public $count;
 
+    public $deploy = false;
+
     public $date;
 
     /**
@@ -31,6 +33,7 @@ class ErrorFixes implements Persistable
         return [
             'count' => $this->count,
             'date' => new UTCDatetime(round(microtime(true) * 1000)),
+            'deploy' => $this->deploy
         ];
     }
 
@@ -44,5 +47,6 @@ class ErrorFixes implements Persistable
         $this->id = $data['_id'];
         $this->count = $data['count'];
         $this->date = $data['date'];
+        $this->deploy = $data['deploy'] ?? false;
     }
 }

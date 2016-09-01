@@ -13,11 +13,10 @@
     </head>
     <body>
 
-
         <div class="top-bar" id="navigation-menu">
             <div class="top-bar-left">
                 <ul class="dropdown menu" data-dropdown-menu>
-                    <li class="menu-text">Error Retention <small> v1.0 </small></li>
+                    <li class="menu-text">Errsy <small> v1.0 </small></li>
                     <li>
                         <a href="{{ path('homepage') }}"> <i class="material-icons">folder</i> List errors</a>
                     </li>
@@ -28,7 +27,10 @@
                         <a href="{{ path('error_stats') }}"> <i class="material-icons">equalizer</i> Error statistics </a>
                     </li>
                     <li>
-                        <a href="{{ path('error_stats_fixes') }}"> <i class="material-icons">equalizer</i> Fixes statistics </a>
+                        <a href="{{ path('error_stats_fixes') }}"> <i class="material-icons">bug_report</i> Fixes statistics </a>
+                    </li>
+                    <li>
+                        <a href="{{ path('error_deployments') }}"> <i class="material-icons">compare_arrows</i> Deployment fixes </a>
                     </li>
                 </ul>
             </div>
@@ -37,6 +39,12 @@
         <div class="content" style="padding: 2%">
             {% block body %}{% endblock %}
         </div>
+
+        <div class="clearfix"></div>
+
+        <footer class="content" style="padding: 2%">
+            <a href="https://github.com/kamillo1888/erkam"> Errsy by kamillo1888 </a> | Successfully powered by Symfony3 And MongoDB 3.2
+        </footer>
 
         {% block javascripts %}
             <script type="text/javascript" src="{{ asset('foundation/js/vendor/jquery.js') }}"></script>

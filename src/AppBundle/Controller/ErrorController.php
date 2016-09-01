@@ -8,6 +8,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Document\ErrorFixes;
+use AppBundle\Query\MongoDBQuery;
 use MongoDB\BSON\ObjectID;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -20,6 +21,27 @@ class ErrorController extends Controller
     private function getDataProvider()
     {
         return $this->get('mongodb_provider')->getCollection('error');
+    }
+
+    /**
+     * @Route("/deployments", name="error_deployments")
+     */
+    public function deploymentList(Request $request)
+    {
+        $query = new MongoDBQuery('error_fixes');
+        $query->setQuery(['deploy' => true]);
+        $query->setSort(['date' => 1]);
+
+        $paginator = $this->get('knp_paginator');
+        $fixes = $paginator->paginate(
+            $query,
+            $request->query->getInt('page', 1),
+            25
+        );
+
+        return $this->render(':error:deployment.html.twig', [
+            'deploys' => $fixes
+        ]);
     }
 
     /**
