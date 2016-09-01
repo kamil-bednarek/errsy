@@ -187,7 +187,7 @@
                                 {{ error.message }}
                             </td>
                             <td class="medium-2">
-                                {{ error.occurred.date|time_diff }}
+                                {{ error.occurred.toDateTime|time_diff }}
                             </td>
                             <td class="medium-1">
                                 <a href="{{ path('show_error', {'id': error.id}) }}"><i class="material-icons circle">visibility</i></a>

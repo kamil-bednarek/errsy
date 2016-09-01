@@ -10,6 +10,7 @@ namespace AppBundle\Controller;
 use AppBundle\Document\Error;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 class ApiController extends Controller
@@ -69,5 +70,12 @@ class ApiController extends Controller
                 $this->get('mongodb_provider')->getCollection('error')->insertOne($error);
             }
         }
+
+        $response = new JsonResponse();
+        $response->setData(array(
+            'added' => true
+        ));
+
+        return $response;
     }
 }
