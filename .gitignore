@@ -19,7 +19,6 @@
 /web/bundles/
 /bower_components/
 /node_modules/
-.idea/
 /web/assets-dev/vendor/*
 !/web/assets-dev/vendor/.gitkeep
 /web/assets-built/*
