@@ -8,7 +8,6 @@
 namespace AppBundle\Document;
 
 use MongoDB\BSON\Persistable;
-use ONGR\ElasticsearchBundle\Annotation as ES;
 
 class Error implements Persistable
 {

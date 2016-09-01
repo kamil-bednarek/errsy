@@ -136,11 +136,17 @@
         </div>
 
         {% if errors.getTotalItemCount() > 0 %}
-            <div class="container">
-                <h4> There is the same {{ errors.getTotalItemCount() }} errors </h4>
-                <table class="striped bordered">
+            <div class="content">
+                <h4> The same: {{ errors.getTotalItemCount() }} errors </h4>
+                <table class="hover stack">
                     {# Itterate throuh errors #}
                     <thead>
+                    <th>
+                        App
+                    </th>
+                    <th>
+                        ENV
+                    </th>
                     <th>
                         Method
                     </th>
@@ -156,19 +162,36 @@
                     </thead>
                     {% for error in errors %}
                         <tr>
-                            <td>
-                                <div class="chip">
-                                    {{ error.method }}
-                                </div>
+                            <td class="">
+                                <span class="secondary label">{{ error.app }}</span>
                             </td>
-                            <td>
+                            <td class="">
+                                <span class="secondary label">{{ error.env }}</span>
+                            </td>
+                            <td class="">
+                                {% if error.method|lower == "get" %}
+                                    <span class="success label">{{ error.method }}</span>
+                                {% elseif error.method|lower == "post" %}
+                                    <span class="warning label">{{ error.method }}</span>
+                                {% elseif error.method|lower == "put" %}
+                                    <span class="warning label">{{ error.method }}</span>
+                                {% elseif error.method|lower == "delete" %}
+                                    <span class="secondary label">{{ error.method }}</span>
+                                {% elseif error.method|lower == "update" %}
+                                    <span class="secondary label">{{ error.method }}</span>
+                                {% else %}
+                                    <span class="alert label">{{ error.method }}</span>
+                                {% endif %}
+                            </td>
+                            <td class="medium-7">
                                 {{ error.message }}
                             </td>
-                            <td>
+                            <td class="medium-2">
                                 {{ error.occurred.date|time_diff }}
                             </td>
-                            <td>
+                            <td class="medium-1">
                                 <a href="{{ path('show_error', {'id': error.id}) }}"><i class="material-icons circle">visibility</i></a>
+                                <a href="{{ path('error_fix_like_this', {'id': error.id}) }}"><i class="material-icons circle">done_all</i></a>
                             </td>
                         </tr>
                     {% endfor %}

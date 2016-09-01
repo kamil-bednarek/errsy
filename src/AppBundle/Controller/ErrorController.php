@@ -7,6 +7,7 @@
  */
 namespace AppBundle\Controller;
 
+use AppBundle\Document\ErrorFixes;
 use MongoDB\BSON\ObjectID;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -26,10 +27,14 @@ class ErrorController extends Controller
      */
     public function clearAction($app, $env, Request $request)
     {
-        $this->getDataProvider()->deleteMany([
+        $fixes = new ErrorFixes();
+        $fixes->date = new \DateTime('now');
+        $fixes->count = $this->getDataProvider()->deleteMany([
             'app' => $app,
             'env' => $env
-        ]);
+        ])->getDeletedCount();
+
+        $this->get('mongodb_provider')->getCollection('error_fixes')->insertOne($fixes);
 
         $referer = $request->headers->get('referer');
         return new RedirectResponse($referer);
@@ -61,11 +66,15 @@ class ErrorController extends Controller
             throw new NotFoundHttpException('Error with identifier not found');
         }
 
-        $this->getDataProvider()->deleteMany([
+        $fixes = new ErrorFixes();
+        $fixes->date = new \DateTime('now');
+        $fixes->count = $this->getDataProvider()->deleteMany([
             'message' => $error->message,
             'app' => $error->app,
             'env' => $error->env
-        ]);
+        ])->getDeletedCount();
+
+        $this->get('mongodb_provider')->getCollection('error_fixes')->insertOne($fixes);
 
         $referer = $request->headers->get('referer');
         return new RedirectResponse($referer);
