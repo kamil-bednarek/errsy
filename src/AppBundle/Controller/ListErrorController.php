@@ -24,8 +24,15 @@ class ListErrorController extends Controller
      */
     public function listAction(Request $request)
     {
+        $search = $request->get('search', null);
+
         $query = new MongoDBQuery('error');
+
         $query->setQuery([]);
+        if ($search !== null) {
+            $query->setQuery(['message' => ['$regex' => $request->get('search')]]);
+        }
+
         $query->setSort(['occurred.date' => -1]);
 
         $paginator = $this->get('knp_paginator');
@@ -34,11 +41,6 @@ class ListErrorController extends Controller
             $request->query->getInt('page', 1),
             25
         );
-//
-//        $results = $this->get('ongr_filter_manager.search_list')->handleRequest($request);
-//
-//
-//        $this->get('erkam.search.service')->searchException('for array with keys');
         
         // replace this example code with whatever you need
         return $this->render(':list:error.html.twig', [
