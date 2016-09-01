@@ -1,5 +1,6 @@
 {
-    "name": "kbednarek/error",
+    "name": "kamillo1888/errsy",
+    "description": "Error retention application, that helps to view, analyze and fix bugs in SF applications",
     "license": "proprietary",
     "type": "project",
     "autoload": {
