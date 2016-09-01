@@ -23,7 +23,6 @@
 !/web/assets-dev/vendor/.gitkeep
 /web/assets-built/*
 !/web/assets-built/.gitkeep
-.DS_Store
 web/uploads/google/feeds
 web/uploads/avatars
 web/uploads/banners
