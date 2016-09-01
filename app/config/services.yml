@@ -5,6 +5,25 @@ parameters:
 
 # RAD services definition
 services:
+
+    # Date Diff extension
+    app.twig.extension.date:
+        class:        Twig_Extensions_Extension_Date
+        tags:
+             - { name: 'twig.extension' }
+
+    # MongoDB provider service
+    mongodb_provider:
+        class: AppBundle\Service\MongoDBService
+        arguments: ["%mongodb.connection.string%", "%mongodb.connection.database%"]
+
+    # Subscriber for KnpPaginatorBundle
+    subscriber_mongodb_pager:
+        class: AppBundle\Subscriber\PaginateMongodbSubscriber
+        arguments: ['@mongodb_provider']
+        tags:
+            - { name: knp_paginator.subscriber }
+
     # Application exception listener - logs all application exceptions
     erkam.exception_listener:
         class: AppBundle\EventListener\ExceptionListener
@@ -17,11 +36,4 @@ services:
         class: AppBundle\Service\ErkamService
         arguments: ['@request_stack']
         calls:
-            - ['setRepo', ['@es.manager.default.error']]
-
-#    ongr_filter_manager:
-#        cache:
-#            engine: 'es.cache_engine' # cache engine, set null to disable caching
-#            life_time: 1080 # cache life time in seconds, 3 hours default
-#            exclude:
-#                - search
+            - ['setProvider', ['@mongodb_provider']]

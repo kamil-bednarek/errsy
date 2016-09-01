@@ -7,115 +7,209 @@
  */
 namespace AppBundle\Document;
 
-use ONGR\ElasticsearchBundle\Annotation as ES;
+use MongoDB\BSON\Persistable;
+use MongoDB\BSON\UTCDatetime;
 
-/**
- * @ES\Document()
- */
-class Error
+class Error implements Persistable
 {
     /**
      * @var string
-     *
-     * @ES\Id()
      */
     public $id;
 
     /**
      * @var string
-     *
-     * @ES\Property(name="error_class", type="string")
      */
     public $errorClass;
 
     /**
      * @var string
-     *
-     * @ES\Property(name="url", type="string")
      */
     public $url;
 
     /**
      * @var string
-     *
-     * @ES\Property(name="message", type="string")
      */
     public $message;
 
     /**
      * @var string
-     *
-     * @ES\Property(name="occurred", type="date")
      */
     public $occurred;
 
     /**
      * @var string
-     *
-     * @ES\Property(name="backtrace", type="string")
      */
     public $backtrace;
 
     /**
-     * @var ErrorParam[]
-     *
-     * @ES\Embedded(class="AppBundle:ErrorParam", multiple=true)
+     * @var []
      */
     public $parametersPost;
 
     /**
-     * @var ErrorParam[]
-     *
-     * @ES\Embedded(class="AppBundle:ErrorParam", multiple=true)
+     * @var []
      */
     public $parametersSession;
 
     /**
-     * @var ErrorParam[]
-     *
-     * @ES\Embedded(class="AppBundle:ErrorParam", multiple=true)
+     * @var []
      */
     public $parametersCookie;
 
     /**
-     * @var ErrorParam[]
-     *
-     * @ES\Embedded(class="AppBundle:ErrorParam", multiple=true)
+     * @var []
      */
     public $serverEnv;
 
     /**
-     * @var ErrorIp[]
-     *
-     * @ES\Embedded(class="AppBundle:ErrorIp", multiple=true)
+     * @var []
      */
     public $ips;
     
     /**
      * @var string
-     *
-     * @ES\Property(name="env", type="string")
      */
     public $env;
 
     /**
      * @var string
-     *
-     * @ES\Property(name="app", type="string")
      */
     public $app;
 
     /**
      * @var string
-     *
-     * @ES\Property(name="user", type="string")
      */
     public $user;
 
     /**
      * @var string
-     *
-     * @ES\Property(name="method", type="string")
      */
     public $method;
+
+    public function __construct()
+    {
+        $this->parametersPost = [];
+        $this->parametersSession = [];
+        $this->parametersCookie = [];
+        $this->serverEnv = [];
+        $this->ips = [];
+    }
+
+    /**
+     * Method to add new cookie parameter
+     *
+     * @param $key
+     * @param $value
+     */
+    public function addParametersCookies($key, $value)
+    {
+        if (false === is_array($this->parametersCookie)) {
+            $this->parametersCookie = [];
+        }
+        $this->parametersCookie[$key] = $value;
+    }
+
+    /**
+     * Method to add new post parameter
+     *
+     * @param $key
+     * @param $value
+     */
+    public function addParametersPosts($key, $value)
+    {
+        if (false === is_array($this->parametersPost)) {
+            $this->parametersPost = [];
+        }
+        $this->parametersCookie[$key] = $value;
+    }
+
+    /**
+     * Method to add new session parameter
+     *
+     * @param $key
+     * @param $value
+     */
+    public function addParametersSessions($key, $value)
+    {
+        if (false === is_array($this->parametersSession)) {
+            $this->parametersSession = [];
+        }
+        $this->parametersSession[$key] = $value;
+    }
+
+    /**
+     * Method to add new server environment
+     *
+     * @param $key
+     * @param $value
+     */
+    public function addServerEnvs($key, $value)
+    {
+        if (false === is_array($this->serverEnv)) {
+            $this->serverEnv = [];
+        }
+        $this->serverEnv[$key] = $value;
+    }
+
+    /**
+     * Method to add new ip address
+     *
+     * @param $address
+     */
+    public function addIps($address)
+    {
+        if (false === is_array($this->ips)) {
+            $this->ips = [];
+        }
+
+        $this->ips[] = $address;
+    }
+
+    /**
+     * Serialize BSON to save in MongoDB
+     *
+     * @return array
+     */
+    public function bsonSerialize()
+    {
+        return [
+            'errorClass' => $this->errorClass,
+            'message' => $this->message,
+            'occurred' => new UTCDatetime(round(microtime(true) * 1000)),
+            'backtrace' => $this->backtrace,
+            'parametersPost' => $this->parametersPost,
+            'parametersSession' => $this->parametersSession,
+            'parametersCookie' => $this->parametersCookie,
+            'serverEnv' => $this->serverEnv,
+            'ips' => $this->ips,
+            'env' => $this->env,
+            'app' => $this->app,
+            'user' => $this->user,
+            'method' => $this->method,
+        ];
+    }
+
+    /**
+     * Deserialize BSON to PHP format from MongoDB
+     *
+     * @param array $data
+     */
+    public function bsonUnserialize(array $data)
+    {
+        $this->id = $data['_id'];
+        $this->errorClass = $data['errorClass'];
+        $this->message = $data['message'];
+        $this->occurred = $data['occurred'];
+        $this->backtrace = $data['backtrace'];
+        $this->parametersPost = $data['parametersPost'];
+        $this->parametersSession = $data['parametersSession'];
+        $this->parametersCookie = $data['parametersCookie'];
+        $this->serverEnv = $data['serverEnv'];
+        $this->ips = $data['ips'];
+        $this->env = $data['env'];
+        $this->app = $data['app'];
+        $this->user = $data['user'];
+        $this->method = $data['method'];
+    }
 }

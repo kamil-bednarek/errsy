@@ -16,8 +16,6 @@ parameters:
     mailer_password:   ~
 
     # A secret key that's used to generate certain security-related tokens
-    secret:            ThisTokenIsNotSoSecretChangeIt
-    elasticsearch.connections:
-        - '172.20.0.11:9200'
-        - '172.20.0.10:9200'
-    elasticsearch.index: error_retention
+    secret:            ThisTokenIsErrsyDefaultSecretPleaseChangeIt
+    mongodb.connection.string: mongodb://localhost:27017
+    mongodb.connection.database: error

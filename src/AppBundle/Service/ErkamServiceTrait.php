@@ -7,8 +7,6 @@
  */
 namespace AppBundle\Service;
 
-use ONGR\ElasticsearchBundle\Service\Repository;
-
 /**
  * Trait ErkamServiceTrait
  *
@@ -19,23 +17,23 @@ use ONGR\ElasticsearchBundle\Service\Repository;
 trait ErkamServiceTrait
 {
     /**
-     * @var Repository
+     * @var MongoDBService
      */
-    private $repository;
+    private $provider;
 
     /**
-     * @param Repository $repo
+     * @param MongoDBService $provider
      */
-    public function setRepo(Repository $repo)
+    public function setProvider(MongoDBService $provider)
     {
-        $this->repository = $repo;
+        $this->provider = $provider;
     }
 
     /**
-     * @return Repository
+     * @return MongoDBService
      */
-    public function getRepo()
+    public function getProvider()
     {
-        return $this->repository;
+        return $this->provider;
     }
 }

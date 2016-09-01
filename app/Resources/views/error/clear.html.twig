@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="row">
+        <h3> Batch delete errors <small>click do delete</small> </h3>
+
+        {% for app,envs in applications %}
+            <hr />
+            <ul class="menu">
+                <li> <span class="label alert">{{ app }}</span> </li>
+                {% for env in envs %}
+                    <li><a href="{{ path('error_clear', {'app': app, 'env': env}) }}" >{{ env }}</a></li>
+                {% endfor %}
+            </ul>
+        {% endfor %}
+    </div>
+{% endblock %}

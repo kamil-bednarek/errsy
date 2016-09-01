@@ -1,0 +1,135 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.2.2/Chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.2.2/Chart.bundle.min.js"></script>
+
+    <div class="column medium-6">
+        <h3> Last errors </h3>
+        <canvas id="myChart1Hour"></canvas>
+
+        <script>
+            var ctx = document.getElementById("myChart1Hour");
+            var myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: [{% for errors in createdWithin60minutes %}"{{ errors._id.day }}-{{ errors._id.month }} {{ errors._id.hour }}:{{ errors._id.minute }}",{% endfor %}],
+                    datasets: [{
+                        label: 'Errors',
+                        data: [{% for errors in createdWithin60minutes %}{{ errors.count }},{% endfor %}],
+                        backgroundColor: [
+                            {% for errors in createdWithin60minutes %}'rgba(255, 99, 132, 0.2)',{% endfor %}
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero:true
+                            }
+                        }]
+                    }
+                }
+            });
+        </script>
+    </div>
+
+    <div class="column medium-6">
+        <h3> Last 24 hours errors </h3>
+        <canvas id="myChart24Hours"></canvas>
+
+        <script>
+            var ctx = document.getElementById("myChart24Hours");
+            var myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: [{% for errors in createdWithin24Hours %}"{{ errors._id.day }}-{{ errors._id.month }} {{ errors._id.hour }}:00",{% endfor %}],
+                    datasets: [{
+                        label: 'Errors',
+                        data: [{% for errors in createdWithin24Hours %}{{ errors.count }},{% endfor %}],
+                        backgroundColor: [
+                            {% for errors in createdWithin24Hours %}'rgba(255, 99, 132, 0.2)',{% endfor %}
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero:true
+                            }
+                        }]
+                    }
+                }
+            });
+        </script>
+    </div>
+
+    <div class="column medium-6">
+        <h3> Last max 7 days </h3>
+        <canvas id="myChart7days"></canvas>
+
+        <script>
+            var ctx = document.getElementById("myChart7days");
+            var myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: [{% for errors in createdWithin7Days %}"{{ errors._id.day }}-{{ errors._id.month }}",{% endfor %}],
+                    datasets: [{
+                        label: 'Errors',
+                        data: [{% for errors in createdWithin7Days %}{{ errors.count }},{% endfor %}],
+                        backgroundColor: [
+                            {% for errors in createdWithin7Days %}'rgba(255, 99, 132, 0.2)',{% endfor %}
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero:true
+                            }
+                        }]
+                    }
+                }
+            });
+        </script>
+    </div>
+
+    <div class="column medium-6">
+        <h3> Last max 31 days </h3>
+        <canvas id="myChartMonth"></canvas>
+
+        <script>
+            var ctx = document.getElementById("myChartMonth");
+            var myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: [{% for errors in createdWithinLastMonth %}"{{ errors._id.day }}-{{ errors._id.month }}",{% endfor %}],
+                    datasets: [{
+                        label: 'Errors',
+                        data: [{% for errors in createdWithinLastMonth %}{{ errors.count }},{% endfor %}],
+                        backgroundColor: [
+                            {% for errors in createdWithinLastMonth %}'rgba(255, 99, 132, 0.2)',{% endfor %}
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero:true
+                            }
+                        }]
+                    }
+                }
+            });
+        </script>
+    </div>
+{% endblock %}

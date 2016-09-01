@@ -5,28 +5,51 @@
         <title>{% block title %}Welcome!{% endblock %}</title>
         {% block stylesheets %}{% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css">
+        {#<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css">#}
         <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link rel="stylesheet" href="{{ asset('foundation/css/app.css') }}">
+        <link rel="stylesheet" href="{{ asset('foundation/css/foundation.min.css') }}">
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     </head>
     <body>
 
-        <nav class="blue darken-3 hoverable">
-            <div class="nav-wrapper">
-                <a href="#" class="brand-logo right" style="padding-right: 10pt"> <i class="material-icons">adb</i> Error <small>v0.1</small></a>
-                <ul id="nav-mobile" class="left hide-on-med-and-down">
-                    <li><a href="{{ path('homepage') }}" title="Applications"> <i class="material-icons">folder</i></a></li>
+        <div class="top-bar" id="navigation-menu">
+            <div class="top-bar-left">
+                <ul class="dropdown menu" data-dropdown-menu>
+                    <li class="menu-text">Errsy <small> v1.0 </small></li>
+                    <li>
+                        <a href="{{ path('homepage') }}"> <i class="material-icons">folder</i> List errors</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('error_clear_index') }}"> <i class="material-icons">delete</i> Clear errors</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('error_stats') }}"> <i class="material-icons">equalizer</i> Error statistics </a>
+                    </li>
+                    <li>
+                        <a href="{{ path('error_stats_fixes') }}"> <i class="material-icons">bug_report</i> Fixes statistics </a>
+                    </li>
+                    <li>
+                        <a href="{{ path('error_deployments') }}"> <i class="material-icons">compare_arrows</i> Deployment fixes </a>
+                    </li>
                 </ul>
             </div>
-        </nav>
+        </div>
 
-        <div class="container">
+        <div class="content" style="padding: 2%">
             {% block body %}{% endblock %}
         </div>
 
+        <div class="clearfix"></div>
+
+        <footer class="content" style="padding: 2%">
+            <a href="https://github.com/kamillo1888/erkam"> Errsy by kamillo1888 </a> | Successfully powered by Symfony3 And MongoDB 3.2
+        </footer>
+
         {% block javascripts %}
-            <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js"></script>
+            <script type="text/javascript" src="{{ asset('foundation/js/vendor/jquery.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('foundation/js/vendor/foundation.min.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('foundation/js/app.js') }}"></script>
         {% endblock %}
     </body>
 </html>
