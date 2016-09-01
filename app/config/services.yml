@@ -5,6 +5,12 @@ parameters:
 
 # RAD services definition
 services:
+
+    # MongoDB provider service
+    mongodb_provider:
+        class: AppBundle\Service\MongoDBService
+        arguments: ["mongodb://localhost:27017", "error"]
+
     # Application exception listener - logs all application exceptions
     erkam.exception_listener:
         class: AppBundle\EventListener\ExceptionListener
@@ -18,6 +24,10 @@ services:
         arguments: ['@request_stack']
         calls:
             - ['setRepo', ['@es.manager.default.error']]
+
+    erkam.search.service:
+        class: AppBundle\Service\SearchService
+        arguments: ['@es.manager.default.error']
 
 #    ongr_filter_manager:
 #        cache:
