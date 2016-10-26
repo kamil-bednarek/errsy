@@ -18,6 +18,11 @@ class Error implements Persistable
     public $id;
 
     /**
+     * @ES\Ttl(default="10080m")
+     */
+    public $ttl;
+
+    /**
      * @var string
      */
     public $errorClass;
@@ -94,6 +99,22 @@ class Error implements Persistable
         $this->parametersCookie = [];
         $this->serverEnv = [];
         $this->ips = [];
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTtl()
+    {
+        return $this->ttl;
+    }
+
+    /**
+     * @param mixed $ttl
+     */
+    public function setTtl($ttl)
+    {
+        $this->ttl = $ttl;
     }
 
     /**
