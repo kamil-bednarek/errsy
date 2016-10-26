@@ -53,7 +53,7 @@ class ListErrorController extends Controller
 
         $query = new MongoDBQuery('error');
         $query->setQuery([]);
-        $query->setSort(['occurred.date' => -1]);
+        $query->setSort(['occurred.date' => 1]);
 
         $queryData = [];
         if (true === $searching->isSubmitted()) {
