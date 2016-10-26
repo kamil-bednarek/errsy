@@ -85,7 +85,7 @@ class ApiController extends Controller
         $error->backtrace = $exception->backtrace;
         $error->env = $exception->env;
         $error->method = $exception->method;
-        $error->errorClass = $exception->errorClass;
+        $error->errorClass = $exception->errorClass??'';
         $error->url = $exception->url;
         $error->user = $exception->user;
 
